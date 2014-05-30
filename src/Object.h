@@ -27,6 +27,11 @@ class Object: public IndexedObject {
 public:
 	static ClassRegistry registry;
 	static void registerTypes();
+	
+	static void registerClass(TypedObjectConstructor constructor, string type);
+
+	
+	
 	static Object *create(string type);
 	ofVec3f position;
 	ofVec3f rotation;
@@ -45,7 +50,7 @@ public:
 	
 	
 	
-
+	// feel free to add gui listeners to this gui in your object
 	virtual void parameterize(xmlgui::SimpleGui &gui) {
 		
 	}

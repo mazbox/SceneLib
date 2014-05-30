@@ -10,37 +10,33 @@
  *    \  \:\        \  \:\         |  |:/       \  \::/       \  \::/        |  |:|   
  *     \__\/         \__\/         |__|/         \__\/         \__\/         |__|/   
  *
- *  Description: 
+ *  Description: Do not use this class directly - subclass the DMXSender class
  *				 
- *  HierarchicalObject.h, created by Marek Bereza on 08/01/2014.
+ *  DMXManager.h, created by Marek Bereza on 30/05/2014.
  */
+
 #pragma once
+#include "ofMain.h"
+#include "ofxDmx.h"
+#include "DMXSender.h"
 
-#include "ClassRegistry.h"
 
-// you subclass this to be part of the menu
-class HierarchicalObject: public TypedObject {
+#define NUM_DMX_CHANNELS 128
+
+class DMXManager {
 public:
-	string type;
-	string name;
-	
-	vector<HierarchicalObject*> children;
-	HierarchicalObject *parent;
-	
-	bool expanded;
+	static DMXManager &getInstance();
+
+	void addSender(DMXSender *sender);
+	void removeSender(DMXSender *sender);
+private:
 	
 	
+	DMXManager();
 	
-	HierarchicalObject(string name = "");
-	virtual ~HierarchicalObject() {}
+	vector<DMXSender*> senders;
 	
-	void addChild(HierarchicalObject *child);
 	
-	void addChildAtFront(HierarchicalObject *child);
-	bool addChildAfter(HierarchicalObject *obj, HierarchicalObject *after);
-	bool removeFromParent();
-	
-	bool removeChild(HierarchicalObject *child);
+	ofxDmx dmx;
+	void update(ofEventArgs &e);
 };
-
-

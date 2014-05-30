@@ -60,11 +60,32 @@ public:
 		root->drawWithChildren(false);
 	}
 	
-	void save(string path) {
+	void save(string path = "") {
+		if(path=="") {
+			if(this->path=="") {
+				ofLogError() << "no path specified for the scene when saving";
+				return;
+			} else {
+				path = this->path;
+			}
+		} else {
+			this->path = path;
+		}
 		root->save(path);
 	}
 	
-	void load(string path) {
+	void load(string path = "") {
+		if(path=="") {
+			if(this->path=="") {
+				ofLogError() << "no path specified for the scene when loading";
+				return;
+			} else {
+				path = this->path;
+			}
+		} else {
+			this->path = path;
+		}
+		
 		root->load(path);
 	}
 
@@ -108,5 +129,6 @@ public:
 	}
 	
 	vector<Object*> selection;
+	string path;
 
 };

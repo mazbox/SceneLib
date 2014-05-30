@@ -39,7 +39,8 @@
 
 class QuadObject: public Object {
 public:
-	ofVec2f quad[4];
+	ofVec2f texCoords[4];
+	ofVec2f vertices[4];
 	
 	int pos;
 	float slider;
@@ -56,7 +57,6 @@ public:
 
 	
 	virtual void parameterize(xmlgui::SimpleGui &gui) {
-			printf("sdfkjsdfk\n");
 		gui.addSlider("slider", slider, 0, 1);
 	}
 	
@@ -67,12 +67,12 @@ public:
 		
 		ofBeginShape();
 		for(int i = 0; i < pos; i++) {
-			ofVertex(quad[i].x, quad[i].y);
+			ofVertex(vertices[i].x, vertices[i].y);
 		}
 		ofEndShape();
 		
 		for(int i = 0; i < pos; i++) {
-			ofCircle(quad[i], 4);
+			ofCircle(vertices[i], 4);
 		}
 		
 		ofFill();
@@ -81,13 +81,13 @@ public:
 	bool mousePressed(ofMouseEventArgs &m) {
 		if(pos<=3) pos++;
 		if(pos<=3) {
-			quad[pos].set(m.x, m.y);
+			vertices[pos].set(m.x, m.y);
 		}
 	}
 	
 	bool mouseDragged(ofMouseEventArgs &m) {
 		if(pos<=3) {
-			quad[pos].set(m.x, m.y);
+			vertices[pos].set(m.x, m.y);
 		}
 	}
 	

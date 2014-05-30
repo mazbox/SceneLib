@@ -16,7 +16,7 @@ UI *UI::getInstance() {
 }
 
 void UI::setup(Scene *scene) {
-	sceneList = new SceneList(scene, this);
+	sceneList = new HierarchicalList(scene, this);
 	grabAxis = -1;
 	this->scene = scene;
 	shiftDown = false;

@@ -20,6 +20,11 @@ void Object::pos(float x, float y, float z) {
 	position.set(x, y, z);
 	
 }
+
+void Object::registerClass(TypedObjectConstructor constructor, string type) {
+	registry.registerClass(constructor, type);
+}
+
 void Object::align3(float xx, xmlgui::Control *a, xmlgui::Control *b, xmlgui::Control *c) {
 	a->x = b->x = c->x = xx;
 	int pad = 5;
@@ -42,8 +47,6 @@ void Object::parameterizeIncludingGeneric(xmlgui::SimpleGui &gui) {
 	// this align3 business is a bit ugly but it makes a nicer
 	// and more compact layout to work with.
 	float xx = gui.addToggle("locked", locked)->x;
-	//printf("Ello\n");
-	gui.addSlider("sfsd", ffff);
 	align3(xx,
 		   gui.addFloatField("pos.x", position.x),
 		   gui.addFloatField("pos.y", position.y),

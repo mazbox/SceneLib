@@ -12,67 +12,56 @@
  *
  *  Description: 
  *				 
- *  UI.h, created by Marek Bereza on 10/10/2013.
+ *  SceneList.h, created by Marek Bereza on 14/10/2013.
  */
+
 #pragma once
 
-#include "Inspector.h"
-#include "ContextMenu.h"
-#include "Scene.h"
-#include "HierarchicalList.h"
+#include "ofMain.h"
 
-#include "constants.h"
-class UI: public ContextMenuListener {
-private:
-	UI() {}
+#include "HierarchicalObject.h"
+#include "Scene.h"
+#include "SceneView.h"
+#include "Frame.h"
+
+
+
+
+class HierarchicalListItem {
+public:
+	HierarchicalListItem(HierarchicalObject *obj, int depth = 0) { this->obj = obj; this->depth = depth; }
+	HierarchicalObject *obj;
+	int depth;
+};
+
+
+class HierarchicalList: public SceneView {
 public:
 	
-	static UI *getInstance();
+	vector<HierarchicalListItem> items;
+	void buildItemList(HierarchicalObject *parent, int depth = 0);
+
+	HierarchicalListItem *itemBeingDragged;
+	HierarchicalListItem *lastItemPressed;
 	
-	void setup(Scene *scene);
+	ofVec2f itemDraggedMouseOffset;
+	int itemHeight;
+	int dropPos;
+	ofVec2f mousePressLocation;
+	HierarchicalList();
+	void draw(ofEventArgs &args);
 	
-	
-	bool isEnabled();
-	void toggle();
 	void setEnabled(bool enabled);
 	
-	
-	void setupMenu();
-	
-
-	
-	void mousePressed(ofMouseEventArgs &m);
-	void mouseReleased(ofMouseEventArgs &m);
-	void mouseDragged(ofMouseEventArgs &m);
-	void keyPressed(ofKeyEventArgs &k);
+	bool mousePressed(ofMouseEventArgs &m);
+	bool mouseReleased(ofMouseEventArgs &m);
+	bool mouseDragged(ofMouseEventArgs &m);
 	void keyReleased(ofKeyEventArgs &k);
+	void keyPressed(ofKeyEventArgs &k);
+	void drawItem(HierarchicalListItem *item, ofRectangle &r);
 
-	void axisGrabbed(int axis, bool shouldDuplicate = false);
-	void contextMenuItemSelected(ContextMenuItem *item);
+	bool altPressed;
+	bool shiftPressed;
 	
-	
-	void addObject(string type);
-	
-	// selection
-	void addSelectedObject(Object *object);
-	void setSelectedObject(Object *object);
-	
-	void groupSelectedItems();
-	
-	
-	bool isSelected(Object *object);
-	
-private:
-	
-	void setFocus(Object *object);
-	
-	vector<Object*> selectedObjects;
-	Inspector inspector;
-	ContextMenu menu;
-	Scene *scene;
-	HierarchicalList *sceneList;
-	ofVec2f prevMouse;
-	int grabAxis;
-	bool shiftDown;
 	bool enabled;
 };

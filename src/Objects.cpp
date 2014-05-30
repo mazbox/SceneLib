@@ -12,18 +12,19 @@
 #include "DraggerObjects.h"
 #include "ScreenCanvasObject.h"
 #include "QuadObject.h"
-
+#include "SharpyObject.h"
 ClassRegistry Object::registry;
 void Object::registerTypes() {
-	registry.registerClass(TypedObjectInstantiator<QuadObject>, "quad");
-	registry.registerClass(TypedObjectInstantiator<Object>, "object");
-	registry.registerClass(TypedObjectInstantiator<Object>, "object");
-	registry.registerClass(TypedObjectInstantiator<Object>, "group");
-	registry.registerClass(TypedObjectInstantiator<CubeObject>, "cube");
-	registry.registerClass(TypedObjectInstantiator<ScreenObject>, "screen");
+	registerClass(TypedObjectInstantiator<QuadObject>, "quad");
+	registerClass(TypedObjectInstantiator<Object>, "object");
+	registerClass(TypedObjectInstantiator<Object>, "object");
+	registerClass(TypedObjectInstantiator<Object>, "group");
+	registerClass(TypedObjectInstantiator<CubeObject>, "cube");
+	registerClass(TypedObjectInstantiator<ScreenObject>, "screen");
 	//registry.registerClass(TypedObjectInstantiator<OBJModelObject>, "obj model");
-	registry.registerClass(TypedObjectInstantiator<PlaneObject>, "plane");
-	registry.registerClass(TypedObjectInstantiator<ScreenCanvasObject>, "screen canvas");
+	registerClass(TypedObjectInstantiator<PlaneObject>, "plane");
+	registerClass(TypedObjectInstantiator<ScreenCanvasObject>, "screen canvas");
+	registerClass(TypedObjectInstantiator<SharpyObject>, "sharpy");
 }
 
 Object *Object::create(string type) {
