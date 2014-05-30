@@ -12,22 +12,28 @@
  *
  *  Description: 
  *				 
- *  QuadWarpEditorView.h, created by Marek Bereza on 09/01/2014.
+ *  ImageSource.h, created by Marek Bereza on 30/05/2014.
  */
 
 #pragma once
-#include "QuadObject.h"
-
-class QuadWarpEditorView: public SceneView {
+#include "ofMain.h"
+class ImageSource {
 public:
-	
 
+	ImageSource();
 	
-	void draw() {
-		for(int i = 0; i < QuadObject::quads.size(); i++) {
-			QuadObject::quads[i]->draw();
-		}
-	}
+	// guaranteed to be called only once a frame
+	virtual void render() {}
+	
+	// return you tex ref here
+	virtual ofTexture &getTextureReference() = 0;
+	
+	
+	
+	// this is for internal use
+	ofTexture &getTexture();
+	
+	
+	int lastFrameRendered;
+	
 };
-
-

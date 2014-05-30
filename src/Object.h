@@ -86,13 +86,19 @@ public:
 	virtual void draw() {};
 
 	void parameterizeIncludingGeneric(xmlgui::SimpleGui &gui);
-
+	
+	
+protected:
+	void align2(float xx, xmlgui::Control *a, xmlgui::Control *b);
+	void align3(float xx, xmlgui::Control *a, xmlgui::Control *b, xmlgui::Control *c);
+	
+	
 private:
 	void parameterizeIncludingGenericAndHidden(xmlgui::SimpleGui &gui);
 	
 	
 	void save(ofxXmlSettings &xml, int pos);
 	void loadChildren(ofxXmlSettings &xml);
-	void align3(float xx, xmlgui::Control *a, xmlgui::Control *b, xmlgui::Control *c);
+	
 
 };

@@ -38,6 +38,23 @@ void Object::align3(float xx, xmlgui::Control *a, xmlgui::Control *b, xmlgui::Co
 	b->x += w3 + pad;
 	c->x += 2*(w3 + pad);
 }
+
+
+void Object::align2(float xx, xmlgui::Control *a, xmlgui::Control *b) {
+	a->x = b->x = xx;
+	int pad = 5;
+	float w = a->width;
+	float w2 = w/2;
+	w2 -= pad;
+	
+	
+	a->width = b->width = w2;
+	b->y = a->y;
+	b->x += w2 + pad;
+}
+
+
+
 float ffff = 0;
 
 void Object::parameterizeIncludingGeneric(xmlgui::SimpleGui &gui) {
@@ -47,7 +64,7 @@ void Object::parameterizeIncludingGeneric(xmlgui::SimpleGui &gui) {
 	// this align3 business is a bit ugly but it makes a nicer
 	// and more compact layout to work with.
 	float xx = gui.addToggle("locked", locked)->x;
-	align3(xx,
+	/*align3(xx,
 		   gui.addFloatField("pos.x", position.x),
 		   gui.addFloatField("pos.y", position.y),
 		   gui.addFloatField("pos.z", position.z)
@@ -66,7 +83,8 @@ void Object::parameterizeIncludingGeneric(xmlgui::SimpleGui &gui) {
 		   );
 	
 	
-	gui.addColorPicker("colour", color)->x = xx;
+	gui.addColorPicker("colour", color)->x = xx;*/
+	
 	
 	parameterize(gui);
 }

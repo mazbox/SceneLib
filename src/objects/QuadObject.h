@@ -45,6 +45,20 @@ public:
 	int pos;
 	float slider;
 	QuadObject() {
+		
+		texCoords[0].set(0,0);
+		texCoords[1].set(1,0);
+		texCoords[2].set(1,1);
+		texCoords[3].set(0,1);
+		
+		vertices[0].set(0,0);
+		vertices[1].set(100,0);
+		vertices[2].set(100,100);
+		vertices[3].set(0,100);
+		
+		// register with the global quad list
+		quads.push_back(this);
+		
 		slider = 0.5;
 		pos = 0;
 		name = "Quad";
@@ -53,11 +67,46 @@ public:
 		ofAddListener(ofEvents().mouseDragged, this, &QuadObject::mouseDragged);
 		ofAddListener(ofEvents().mouseReleased, this, &QuadObject::mouseReleased);
 	}
-	
+		
+	~QuadObject() {
+		for(int i = 0; i < quads.size(); i++) {
+			if(quads[i]==this) {
+				quads.erase(quads.begin() + i);
+			}
+				
+		}
+	}
 
 	
 	virtual void parameterize(xmlgui::SimpleGui &gui) {
-		gui.addSlider("slider", slider, 0, 1);
+		float xx;
+		
+		
+		
+		for(int i = 0; i < 4; i++) {
+			xmlgui::Control *g = gui.addFloatField("v["+ofToString(i)+"].x", vertices[i].x);
+			if(i==0) xx = g->x;
+			align2(xx,
+				   g,
+				   gui.addFloatField("v["+ofToString(i)+"].y", vertices[i].y)
+				   );
+		}
+		
+		gui.addHR()->x = xx;
+		
+		for(int i = 0; i < 4; i++) {
+			align2(xx,
+				   gui.addFloatField("tc["+ofToString(i)+"].x", texCoords[i].x),
+				   gui.addFloatField("tc["+ofToString(i)+"].y", texCoords[i].y)
+				   );
+		}
+		
+		
+		
+				 
+		 
+		 
+		 
 	}
 	
 	
@@ -96,7 +145,7 @@ public:
 			glutSetCursor(GLUT_CURSOR_LEFT_ARROW);
 		}
 	}
-	
+	static vector<QuadObject*> quads;
 	
 };
 
