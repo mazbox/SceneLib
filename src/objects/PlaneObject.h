@@ -29,6 +29,7 @@ public:
 		name = "Plane";
 		width = 1;
 		height = 1;
+		objectInSpace = true;
 	}
 	
 	virtual void parameterize(xmlgui::SimpleGui &gui) {
@@ -37,7 +38,9 @@ public:
 	}
 	
 	void draw() {
-		ofRect(-width/2, -height/2, width, height);
+		ofSetColor(color);
+		ofDrawPlane(0, 0, width, height);
+
 	}
 };
 

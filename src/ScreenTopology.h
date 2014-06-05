@@ -12,37 +12,13 @@
  *
  *  Description: 
  *				 
- *  CubeObject.h, created by Marek Bereza on 11/10/2013.
+ *  MacScreenTopology.h, created by Marek Bereza on 09/07/2013.
  */
 
 #pragma once
-#include "Object.h"
+#include "ofMain.h"
 
-class CubeObject: public Object {
-public:
-	float width;
-	float height;
-	float depth;
-	
-	CubeObject() {
-		name = "Cube";
-		width = 1;
-		height = 1;
-		depth = 1;
-		objectInSpace = true;
-	}
-	
-	virtual void parameterize(xmlgui::SimpleGui &gui) {
-		gui.addFloatField("width", width);
-		gui.addFloatField("height", height);
-		gui.addFloatField("depth", depth);
-	}
-	
-	void draw() {
-		ofSetColor(color);
-		ofDrawBox(width, height, depth);
-		//ofDrawSphere(0,0,1);
-	}
-};
-
-
+namespace ScreenTopology {
+	int getNumScreens();
+	ofRectangle getScreenRect(int index);
+}

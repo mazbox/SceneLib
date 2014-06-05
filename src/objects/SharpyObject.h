@@ -68,7 +68,7 @@ public:
 	SharpyObject() {
 		name = "Sharpy";
 		this->startingChannel = 1;
-		
+		objectInSpace = true;
 		memset(data, 0, NUM_PARAMS*sizeof(int));
 	}
 	

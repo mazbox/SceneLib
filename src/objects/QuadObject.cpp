@@ -6,5 +6,3 @@
 
 #include "QuadObject.h"
 
-
-vector<QuadObject*> QuadObject::quads;
