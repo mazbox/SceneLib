@@ -50,6 +50,7 @@ public:
 	QuadObject() {
 		brightness = 1;
 		selected = -1;
+		invert = false;	
 		over = -1;
 		texCoords.resize(4);
 		texCoords[0].set(0,0);
@@ -114,6 +115,19 @@ public:
 			else if(ii==2) ii = 3;
 			mesh.addVertex(vertices[ii]);
 			mesh.addTexCoord(texCoords[ii]);
+		}
+		mesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
+		mesh.draw();
+	}
+	
+	void drawVertices() {
+		ofVboMesh mesh;
+		for(int i = 0; i < vertices.size(); i++) {
+			
+			int ii = i;
+			if(ii==3) ii = 2;
+			else if(ii==2) ii = 3;
+			mesh.addVertex(vertices[ii]);
 		}
 		mesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
 		mesh.draw();

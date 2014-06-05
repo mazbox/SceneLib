@@ -19,6 +19,8 @@
 #include "Object.h"
 #include "QuadObject.h"
 #include "ImageSource.h"
+#include "AutoShader.h"
+
 class QuadMapObject: public Object {
 public:
 	float width;
@@ -33,6 +35,7 @@ public:
 		
 		width = 1024;
 		height = 768;
+
 	}
 	
 	virtual void parameterize(xmlgui::SimpleGui &gui) {
@@ -70,10 +73,25 @@ public:
 	void setImageSource(ImageSource *imageSource) {
 		this->imageSource = imageSource;
 	}
+	ofTexture *getTexture() {
+		if(doTestPattern) {
+			if(!testPattern.isAllocated()) {
+				testPattern.loadImage("testPattern.png");
+			}
+			return &testPattern.getTextureReference();
+		} else {
+			if(imageSource!=NULL) {
+				return &imageSource->getTexture();
+			}
+		}
+		return NULL;
+	}
+	
+	
 	
 	
 	void bindTexture() {
-		if(doTestPattern) {
+		/*if(doTestPattern) {
 			if(!testPattern.isAllocated()) {
 				testPattern.loadImage("testPattern.png");
 			}
@@ -82,16 +100,20 @@ public:
 			if(imageSource!=NULL) {
 				imageSource->getTexture().bind();
 			}
+		}*/
+		
+		ofTexture *tex = getTexture();
+		if(tex!=NULL) {
+			tex->bind();
 		}
 	}
 	
+	
+	
 	void unbindTexture() {
-		if(doTestPattern) {
-			testPattern.unbind();
-		} else {
-			if(imageSource!=NULL) {
-				imageSource->getTexture().unbind();
-			}
+		ofTexture *tex = getTexture();
+		if(tex!=NULL) {
+			tex->unbind();
 		}
 	}
 	
@@ -99,7 +121,9 @@ public:
 		glPushMatrix();
 		glTranslatef(r.x, r.y, 0);
 
-		
+		if(!mapShader.isLoaded()) {
+			mapShader.loadShader("quadmap.vert", "quadmap.frag");
+		}
 
 		glScalef(r.width/width, r.height/height, 1);
 		ofSetColor(0);
@@ -111,13 +135,34 @@ public:
 			
 			
 			
+
 			QuadObject *q = getQuad(i);
-			
-			ofSetColor(255*q->brightness);
-			
-			bindTexture();
-			getQuad(i)->drawTextured();
-			unbindTexture();
+			if(q->invert) {
+				ofSetColor(255*q->brightness);
+				getQuad(i)->drawVertices();
+				
+				//ofEnableBlendMode(OF_BLENDMODE_SUBTRACT);
+				
+				
+				
+				
+//				bindTexture();
+				mapShader.begin();
+				ofTexture &t = *getTexture();
+				mapShader.setUniformTexture("tex", t, 0);
+				mapShader.setUniform2f("dims", t.getWidth(), t.getHeight());
+
+				getQuad(i)->drawTextured();
+				mapShader.end();
+//				unbindTexture();
+				//ofEnableBlendMode(OF_BLENDMODE_ALPHA);
+			} else {
+				ofSetColor(255*q->brightness);
+				
+				bindTexture();
+				getQuad(i)->drawTextured();
+				unbindTexture();
+			}
 			
 		}
 		
@@ -126,5 +171,5 @@ public:
 		
 		glPopMatrix();
 	}
-	
+	AutoShader mapShader;
 };
